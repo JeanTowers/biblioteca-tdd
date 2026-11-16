@@ -61,4 +61,18 @@ class LivroTest {
     void deveLancarExcecaoQuandoDevolverComTodosDisponiveis() {
         assertThrows(IllegalStateException.class, () -> livro.devolverExemplar());
     }
+
+    @Test
+    @DisplayName("deve lancar excecao quando ISBN for vazio")
+    void deveLancarExcecaoQuandoIsbnForVazio() {
+        assertThrows(IllegalArgumentException.class, () -> new Livro("  ", "Titulo", 1));
+        assertThrows(IllegalArgumentException.class, () -> new Livro(null, "Titulo", 1));
+    }
+
+    @Test
+    @DisplayName("deve lancar excecao quando quantidade de exemplares nao for positiva")
+    void deveLancarExcecaoQuandoQuantidadeNaoForPositiva() {
+        assertThrows(IllegalArgumentException.class, () -> new Livro("123", "Titulo", 0));
+        assertThrows(IllegalArgumentException.class, () -> new Livro("123", "Titulo", -3));
+    }
 }
