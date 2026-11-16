@@ -9,7 +9,7 @@ public class Livro {
     }
 
     public boolean estaDisponivel() {
-        return true;
+        return exemplaresDisponiveis > 0;
     }
 
     public int getExemplaresDisponiveis() {
@@ -17,6 +17,9 @@ public class Livro {
     }
 
     public void emprestarExemplar() {
+        if (!estaDisponivel()) {
+            throw new LivroIndisponivelException("Nao ha exemplar disponivel");
+        }
         exemplaresDisponiveis--;
     }
 }
