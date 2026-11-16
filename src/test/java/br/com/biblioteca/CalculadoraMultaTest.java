@@ -23,4 +23,16 @@ class CalculadoraMultaTest {
     void deveCobrarDoisReaisPorDiaQuandoHaAtraso() {
         assertEquals(10.0, calculadora.calcular(5), 0.001);
     }
+
+    @Test
+    @DisplayName("deve limitar a multa a cinquenta reais")
+    void deveLimitarMultaACinquentaReaisQuandoAtrasoForLongo() {
+        assertEquals(50.0, calculadora.calcular(30), 0.001);
+    }
+
+    @Test
+    @DisplayName("deve cobrar exatamente o teto quando atraso for 25 dias")
+    void deveCobrarExatamenteOTetoQuandoAtrasoForVinteECincoDias() {
+        assertEquals(50.0, calculadora.calcular(25), 0.001);
+    }
 }
