@@ -35,4 +35,10 @@ class CalculadoraMultaTest {
     void deveCobrarExatamenteOTetoQuandoAtrasoForVinteECincoDias() {
         assertEquals(50.0, calculadora.calcular(25), 0.001);
     }
+
+    @Test
+    @DisplayName("deve lancar excecao quando dias de atraso forem negativos")
+    void deveLancarExcecaoQuandoDiasForemNegativos() {
+        assertThrows(IllegalArgumentException.class, () -> calculadora.calcular(-1));
+    }
 }
