@@ -17,4 +17,10 @@ class CalculadoraMultaTest {
     void deveRetornarZeroQuandoNaoHaAtraso() {
         assertEquals(0.0, calculadora.calcular(0), 0.001);
     }
+
+    @Test
+    @DisplayName("deve cobrar dois reais por dia de atraso")
+    void deveCobrarDoisReaisPorDiaQuandoHaAtraso() {
+        assertEquals(10.0, calculadora.calcular(5), 0.001);
+    }
 }
