@@ -30,4 +30,21 @@ class LivroTest {
         livro.emprestarExemplar();
         assertEquals(1, livro.getExemplaresDisponiveis());
     }
+
+    @Test
+    @DisplayName("nao deve estar disponivel quando todos os exemplares forem emprestados")
+    void naoDeveEstarDisponivelQuandoTodosExemplaresEmprestados() {
+        livro.emprestarExemplar();
+        livro.emprestarExemplar();
+        assertFalse(livro.estaDisponivel());
+    }
+
+    @Test
+    @DisplayName("deve lancar excecao ao emprestar livro sem exemplar disponivel (RN01)")
+    void deveLancarExcecaoQuandoEmprestarSemExemplar() {
+        livro.emprestarExemplar();
+        livro.emprestarExemplar();
+        assertThrows(LivroIndisponivelException.class, () -> livro.emprestarExemplar());
+        assertEquals(0, livro.getExemplaresDisponiveis());
+    }
 }
