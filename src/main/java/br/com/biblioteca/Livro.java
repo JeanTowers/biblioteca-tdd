@@ -6,6 +6,12 @@ public class Livro {
     private int exemplaresDisponiveis;
 
     public Livro(String isbn, String titulo, int quantidadeExemplares) {
+        if (isbn == null || isbn.isBlank()) {
+            throw new IllegalArgumentException("ISBN obrigatorio");
+        }
+        if (quantidadeExemplares <= 0) {
+            throw new IllegalArgumentException("Quantidade de exemplares deve ser positiva");
+        }
         this.quantidadeExemplares = quantidadeExemplares;
         this.exemplaresDisponiveis = quantidadeExemplares;
     }
