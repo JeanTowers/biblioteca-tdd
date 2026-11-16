@@ -47,4 +47,18 @@ class LivroTest {
         assertThrows(LivroIndisponivelException.class, () -> livro.emprestarExemplar());
         assertEquals(0, livro.getExemplaresDisponiveis());
     }
+
+    @Test
+    @DisplayName("deve aumentar exemplares disponiveis ao devolver")
+    void deveAumentarExemplaresQuandoDevolver() {
+        livro.emprestarExemplar();
+        livro.devolverExemplar();
+        assertEquals(2, livro.getExemplaresDisponiveis());
+    }
+
+    @Test
+    @DisplayName("deve lancar excecao ao devolver quando todos ja estao disponiveis")
+    void deveLancarExcecaoQuandoDevolverComTodosDisponiveis() {
+        assertThrows(IllegalStateException.class, () -> livro.devolverExemplar());
+    }
 }
