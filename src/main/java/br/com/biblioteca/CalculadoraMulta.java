@@ -3,6 +3,6 @@ package br.com.biblioteca;
 public class CalculadoraMulta {
 
     public double calcular(int diasAtraso) {
-        return 0.0;
+        return diasAtraso * 2.0;
     }
 }
