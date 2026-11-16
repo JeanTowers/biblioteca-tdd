@@ -17,4 +17,17 @@ class LivroTest {
     void deveIniciarComTodosOsExemplaresDisponiveis() {
         assertEquals(2, livro.getExemplaresDisponiveis());
     }
+
+    @Test
+    @DisplayName("deve estar disponivel quando houver exemplar")
+    void deveEstarDisponivelQuandoHouverExemplar() {
+        assertTrue(livro.estaDisponivel());
+    }
+
+    @Test
+    @DisplayName("deve diminuir exemplares disponiveis ao emprestar")
+    void deveDiminuirExemplaresQuandoEmprestar() {
+        livro.emprestarExemplar();
+        assertEquals(1, livro.getExemplaresDisponiveis());
+    }
 }
