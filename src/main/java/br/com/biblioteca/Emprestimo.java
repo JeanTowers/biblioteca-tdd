@@ -7,6 +7,8 @@ public class Emprestimo {
     private final LocalDate dataPrevistaDevolucao;
 
     public Emprestimo(Livro livro, Usuario usuario, LocalDate dataEmprestimo) {
+        usuario.registrarEmprestimo();
+        livro.emprestarExemplar();
         this.dataPrevistaDevolucao = dataEmprestimo.plusDays(usuario.getPrazoDevolucaoEmDias());
     }
 
