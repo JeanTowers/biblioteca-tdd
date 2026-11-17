@@ -50,4 +50,11 @@ public class Usuario {
     public double getMultaPendente() {
         return multaPendente;
     }
+
+    public void pagarMulta(double valor) {
+        if (valor <= 0 || valor > multaPendente) {
+            throw new IllegalArgumentException("Valor de pagamento invalido");
+        }
+        multaPendente -= valor;
+    }
 }
