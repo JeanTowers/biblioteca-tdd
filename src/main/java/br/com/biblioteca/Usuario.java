@@ -28,6 +28,13 @@ public class Usuario {
         emprestimosAtivos++;
     }
 
+    public void registrarDevolucao() {
+        if (emprestimosAtivos == 0) {
+            throw new IllegalStateException("Usuario nao possui emprestimo ativo");
+        }
+        emprestimosAtivos--;
+    }
+
     public int getEmprestimosAtivos() {
         return emprestimosAtivos;
     }
