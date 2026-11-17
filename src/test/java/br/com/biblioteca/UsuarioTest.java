@@ -110,4 +110,32 @@ class UsuarioTest {
         assertFalse(aluno.podeEmprestar());
         assertThrows(UsuarioBloqueadoException.class, () -> aluno.registrarEmprestimo());
     }
+
+    @Test
+    @DisplayName("deve abater valor pago da multa pendente")
+    void deveAbaterValorQuandoPagarMultaParcialmente() {
+        aluno.adicionarMulta(10.0);
+        aluno.pagarMulta(4.0);
+        assertEquals(6.0, aluno.getMultaPendente(), 0.001);
+        assertFalse(aluno.podeEmprestar());
+    }
+
+    @Test
+    @DisplayName("deve voltar a poder emprestar quando quitar a multa")
+    void devePoderEmprestarQuandoQuitarMulta() {
+        aluno.adicionarMulta(10.0);
+        aluno.pagarMulta(10.0);
+        assertEquals(0.0, aluno.getMultaPendente(), 0.001);
+        assertTrue(aluno.podeEmprestar());
+    }
+
+    @Test
+    @DisplayName("deve lancar excecao ao pagar valor nao positivo ou maior que a multa")
+    void deveLancarExcecaoQuandoPagamentoForInvalido() {
+        aluno.adicionarMulta(10.0);
+        assertThrows(IllegalArgumentException.class, () -> aluno.pagarMulta(0));
+        assertThrows(IllegalArgumentException.class, () -> aluno.pagarMulta(-1));
+        assertThrows(IllegalArgumentException.class, () -> aluno.pagarMulta(10.01));
+        assertEquals(10.0, aluno.getMultaPendente(), 0.001);
+    }
 }
