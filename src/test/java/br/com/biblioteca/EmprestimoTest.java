@@ -94,4 +94,25 @@ class EmprestimoTest {
         emprestimo.renovar(LocalDate.of(2026, 3, 8));
         assertEquals(LocalDate.of(2026, 3, 16), emprestimo.getDataPrevistaDevolucao());
     }
+
+    @Test
+    @DisplayName("nao deve permitir renovar duas vezes (RN06)")
+    void naoDevePermitirRenovarQuandoJaRenovado() {
+        Emprestimo emprestimo = new Emprestimo(livro, aluno, DATA_EMPRESTIMO);
+        emprestimo.renovar(LocalDate.of(2026, 3, 8));
+
+        assertThrows(RenovacaoNaoPermitidaException.class,
+                () -> emprestimo.renovar(LocalDate.of(2026, 3, 10)));
+        assertEquals(LocalDate.of(2026, 3, 16), emprestimo.getDataPrevistaDevolucao());
+    }
+
+    @Test
+    @DisplayName("nao deve permitir renovar emprestimo atrasado (RN06)")
+    void naoDevePermitirRenovarQuandoAtrasado() {
+        Emprestimo emprestimo = new Emprestimo(livro, aluno, DATA_EMPRESTIMO);
+
+        assertThrows(RenovacaoNaoPermitidaException.class,
+                () -> emprestimo.renovar(LocalDate.of(2026, 3, 10)));
+        assertEquals(LocalDate.of(2026, 3, 9), emprestimo.getDataPrevistaDevolucao());
+    }
 }
