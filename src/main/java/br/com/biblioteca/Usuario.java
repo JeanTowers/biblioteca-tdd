@@ -22,6 +22,9 @@ public class Usuario {
     }
 
     public void registrarEmprestimo() {
+        if (!podeEmprestar()) {
+            throw new UsuarioBloqueadoException("Usuario nao pode fazer novo emprestimo");
+        }
         emprestimosAtivos++;
     }
 
