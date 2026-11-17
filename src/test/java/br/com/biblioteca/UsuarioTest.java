@@ -70,4 +70,21 @@ class UsuarioTest {
         assertThrows(UsuarioBloqueadoException.class, () -> aluno.registrarEmprestimo());
         assertEquals(3, aluno.getEmprestimosAtivos());
     }
+
+    @Test
+    @DisplayName("deve liberar vaga ao registrar devolucao")
+    void deveLiberarVagaQuandoRegistrarDevolucao() {
+        for (int i = 0; i < 3; i++) {
+            aluno.registrarEmprestimo();
+        }
+        aluno.registrarDevolucao();
+        assertEquals(2, aluno.getEmprestimosAtivos());
+        assertTrue(aluno.podeEmprestar());
+    }
+
+    @Test
+    @DisplayName("deve lancar excecao ao registrar devolucao sem emprestimo ativo")
+    void deveLancarExcecaoQuandoRegistrarDevolucaoSemEmprestimoAtivo() {
+        assertThrows(IllegalStateException.class, () -> aluno.registrarDevolucao());
+    }
 }
