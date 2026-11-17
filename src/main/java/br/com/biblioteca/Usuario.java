@@ -11,4 +11,8 @@ public class Usuario {
     public int getLimiteEmprestimos() {
         return tipo == TipoUsuario.ALUNO ? 3 : 5;
     }
+
+    public int getPrazoDevolucaoEmDias() {
+        return tipo == TipoUsuario.ALUNO ? 7 : 14;
+    }
 }
