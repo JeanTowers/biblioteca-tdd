@@ -102,4 +102,12 @@ class UsuarioTest {
         assertThrows(IllegalArgumentException.class, () -> aluno.adicionarMulta(0));
         assertThrows(IllegalArgumentException.class, () -> aluno.adicionarMulta(-5));
     }
+
+    @Test
+    @DisplayName("nao deve poder emprestar quando tiver multa pendente (RN03)")
+    void naoDevePoderEmprestarQuandoTiverMultaPendente() {
+        aluno.adicionarMulta(2.0);
+        assertFalse(aluno.podeEmprestar());
+        assertThrows(UsuarioBloqueadoException.class, () -> aluno.registrarEmprestimo());
+    }
 }
