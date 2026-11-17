@@ -52,6 +52,10 @@ public class Emprestimo {
         devolvido = true;
         livro.devolverExemplar();
         usuario.registrarDevolucao();
+        double multa = new CalculadoraMulta().calcular(getDiasAtraso(dataDevolucao));
+        if (multa > 0) {
+            usuario.adicionarMulta(multa);
+        }
     }
 
     public boolean isDevolvido() {
