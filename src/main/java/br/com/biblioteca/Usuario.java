@@ -1,12 +1,21 @@
 package br.com.biblioteca;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+/**
+ * Aluno ou professor. Controla emprestimos ativos (RN02) e multa pendente (RN03).
+ * A multa e guardada em BigDecimal para evitar residuos de arredondamento do double.
+ */
 public class Usuario {
 
+    private final String nome;
     private final TipoUsuario tipo;
     private int emprestimosAtivos;
-    private double multaPendente;
+    private BigDecimal multaPendente = BigDecimal.ZERO;
 
     public Usuario(String nome, TipoUsuario tipo) {
+        this.nome = nome;
         this.tipo = tipo;
     }
 
@@ -19,12 +28,20 @@ public class Usuario {
     }
 
     public boolean podeEmprestar() {
-        return emprestimosAtivos < getLimiteEmprestimos() && multaPendente == 0;
+        return !atingiuLimite() && !temMultaPendente();
+    }
+
+    private boolean atingiuLimite() {
+        return emprestimosAtivos >= getLimiteEmprestimos();
+    }
+
+    private boolean temMultaPendente() {
+        return multaPendente.signum() > 0;
     }
 
     public void registrarEmprestimo() {
         if (!podeEmprestar()) {
-            throw new UsuarioBloqueadoException("Usuario nao pode fazer novo emprestimo");
+            throw new UsuarioBloqueadoException("Usuario " + nome + " nao pode fazer novo emprestimo");
         }
         emprestimosAtivos++;
     }
@@ -44,17 +61,30 @@ public class Usuario {
         if (valor <= 0) {
             throw new IllegalArgumentException("Valor da multa deve ser positivo");
         }
-        multaPendente += valor;
-    }
-
-    public double getMultaPendente() {
-        return multaPendente;
+        multaPendente = multaPendente.add(emCentavos(valor));
     }
 
     public void pagarMulta(double valor) {
-        if (valor <= 0 || valor > multaPendente) {
+        BigDecimal pagamento = emCentavos(valor);
+        if (pagamento.signum() <= 0 || pagamento.compareTo(multaPendente) > 0) {
             throw new IllegalArgumentException("Valor de pagamento invalido");
         }
-        multaPendente -= valor;
+        multaPendente = multaPendente.subtract(pagamento);
+    }
+
+    public double getMultaPendente() {
+        return multaPendente.doubleValue();
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public TipoUsuario getTipo() {
+        return tipo;
+    }
+
+    private static BigDecimal emCentavos(double valor) {
+        return BigDecimal.valueOf(valor).setScale(2, RoundingMode.HALF_UP);
     }
 }
