@@ -37,4 +37,25 @@ class EmprestimoTest {
         assertEquals(1, livro.getExemplaresDisponiveis());
         assertEquals(1, aluno.getEmprestimosAtivos());
     }
+
+    @Test
+    @DisplayName("nao deve contar emprestimo do usuario quando livro estiver indisponivel (RN01)")
+    void naoDeveAlterarUsuarioQuandoLivroEstiverIndisponivel() {
+        Livro esgotado = new Livro("111", "Refactoring", 1);
+        esgotado.emprestarExemplar();
+
+        assertThrows(LivroIndisponivelException.class,
+                () -> new Emprestimo(esgotado, aluno, DATA_EMPRESTIMO));
+        assertEquals(0, aluno.getEmprestimosAtivos());
+    }
+
+    @Test
+    @DisplayName("nao deve reservar exemplar quando usuario estiver bloqueado (RN03)")
+    void naoDeveAlterarLivroQuandoUsuarioEstiverBloqueado() {
+        aluno.adicionarMulta(2.0);
+
+        assertThrows(UsuarioBloqueadoException.class,
+                () -> new Emprestimo(livro, aluno, DATA_EMPRESTIMO));
+        assertEquals(2, livro.getExemplaresDisponiveis());
+    }
 }
