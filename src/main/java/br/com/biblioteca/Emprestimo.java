@@ -7,6 +7,7 @@ public class Emprestimo {
 
     private final Usuario usuario;
     private LocalDate dataPrevistaDevolucao;
+    private boolean renovado;
 
     public Emprestimo(Livro livro, Usuario usuario, LocalDate dataEmprestimo) {
         if (!usuario.podeEmprestar()) {
@@ -34,6 +35,13 @@ public class Emprestimo {
     }
 
     public void renovar(LocalDate hoje) {
+        if (renovado) {
+            throw new RenovacaoNaoPermitidaException("Emprestimo ja foi renovado");
+        }
+        if (estaAtrasado(hoje)) {
+            throw new RenovacaoNaoPermitidaException("Emprestimo atrasado nao pode ser renovado");
+        }
+        renovado = true;
         dataPrevistaDevolucao = dataPrevistaDevolucao.plusDays(usuario.getPrazoDevolucaoEmDias());
     }
 }
