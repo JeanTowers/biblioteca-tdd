@@ -115,4 +115,16 @@ class EmprestimoTest {
                 () -> emprestimo.renovar(LocalDate.of(2026, 3, 10)));
         assertEquals(LocalDate.of(2026, 3, 9), emprestimo.getDataPrevistaDevolucao());
     }
+
+    @Test
+    @DisplayName("deve liberar exemplar e vaga do usuario ao devolver no prazo")
+    void deveLiberarExemplarEVagaQuandoDevolverNoPrazo() {
+        Emprestimo emprestimo = new Emprestimo(livro, aluno, DATA_EMPRESTIMO);
+        emprestimo.devolver(LocalDate.of(2026, 3, 9));
+
+        assertTrue(emprestimo.isDevolvido());
+        assertEquals(2, livro.getExemplaresDisponiveis());
+        assertEquals(0, aluno.getEmprestimosAtivos());
+        assertEquals(0.0, aluno.getMultaPendente(), 0.001);
+    }
 }
