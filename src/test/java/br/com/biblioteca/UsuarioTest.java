@@ -87,4 +87,19 @@ class UsuarioTest {
     void deveLancarExcecaoQuandoRegistrarDevolucaoSemEmprestimoAtivo() {
         assertThrows(IllegalStateException.class, () -> aluno.registrarDevolucao());
     }
+
+    @Test
+    @DisplayName("deve acumular multa pendente")
+    void deveAcumularMultaPendenteQuandoAdicionarMulta() {
+        aluno.adicionarMulta(4.0);
+        aluno.adicionarMulta(6.0);
+        assertEquals(10.0, aluno.getMultaPendente(), 0.001);
+    }
+
+    @Test
+    @DisplayName("deve lancar excecao ao adicionar multa nao positiva")
+    void deveLancarExcecaoQuandoAdicionarMultaNaoPositiva() {
+        assertThrows(IllegalArgumentException.class, () -> aluno.adicionarMulta(0));
+        assertThrows(IllegalArgumentException.class, () -> aluno.adicionarMulta(-5));
+    }
 }
