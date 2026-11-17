@@ -58,4 +58,32 @@ class EmprestimoTest {
                 () -> new Emprestimo(livro, aluno, DATA_EMPRESTIMO));
         assertEquals(2, livro.getExemplaresDisponiveis());
     }
+
+    @Test
+    @DisplayName("nao deve estar atrasado ate a data prevista")
+    void naoDeveEstarAtrasadoQuandoHojeForADataPrevista() {
+        Emprestimo emprestimo = new Emprestimo(livro, aluno, DATA_EMPRESTIMO);
+        assertFalse(emprestimo.estaAtrasado(LocalDate.of(2026, 3, 9)));
+    }
+
+    @Test
+    @DisplayName("deve estar atrasado depois da data prevista")
+    void deveEstarAtrasadoQuandoHojeForDepoisDaDataPrevista() {
+        Emprestimo emprestimo = new Emprestimo(livro, aluno, DATA_EMPRESTIMO);
+        assertTrue(emprestimo.estaAtrasado(LocalDate.of(2026, 3, 10)));
+    }
+
+    @Test
+    @DisplayName("deve retornar zero dias de atraso quando dentro do prazo")
+    void deveRetornarZeroDiasDeAtrasoQuandoDentroDoPrazo() {
+        Emprestimo emprestimo = new Emprestimo(livro, aluno, DATA_EMPRESTIMO);
+        assertEquals(0, emprestimo.getDiasAtraso(LocalDate.of(2026, 3, 5)));
+    }
+
+    @Test
+    @DisplayName("deve contar dias entre a data prevista e a data informada")
+    void deveContarDiasDeAtrasoQuandoPassarDoPrazo() {
+        Emprestimo emprestimo = new Emprestimo(livro, aluno, DATA_EMPRESTIMO);
+        assertEquals(4, emprestimo.getDiasAtraso(LocalDate.of(2026, 3, 13)));
+    }
 }
