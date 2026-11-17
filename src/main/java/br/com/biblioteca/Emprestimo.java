@@ -5,9 +5,11 @@ import java.time.temporal.ChronoUnit;
 
 public class Emprestimo {
 
+    private final Livro livro;
     private final Usuario usuario;
     private LocalDate dataPrevistaDevolucao;
     private boolean renovado;
+    private boolean devolvido;
 
     public Emprestimo(Livro livro, Usuario usuario, LocalDate dataEmprestimo) {
         if (!usuario.podeEmprestar()) {
@@ -15,6 +17,7 @@ public class Emprestimo {
         }
         livro.emprestarExemplar();
         usuario.registrarEmprestimo();
+        this.livro = livro;
         this.usuario = usuario;
         this.dataPrevistaDevolucao = dataEmprestimo.plusDays(usuario.getPrazoDevolucaoEmDias());
     }
@@ -43,5 +46,15 @@ public class Emprestimo {
         }
         renovado = true;
         dataPrevistaDevolucao = dataPrevistaDevolucao.plusDays(usuario.getPrazoDevolucaoEmDias());
+    }
+
+    public void devolver(LocalDate dataDevolucao) {
+        devolvido = true;
+        livro.devolverExemplar();
+        usuario.registrarDevolucao();
+    }
+
+    public boolean isDevolvido() {
+        return devolvido;
     }
 }
