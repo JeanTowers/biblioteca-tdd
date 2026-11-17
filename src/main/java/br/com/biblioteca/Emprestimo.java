@@ -7,6 +7,7 @@ public class Emprestimo {
 
     private final Livro livro;
     private final Usuario usuario;
+    private final LocalDate dataEmprestimo;
     private LocalDate dataPrevistaDevolucao;
     private boolean renovado;
     private boolean devolvido;
@@ -19,6 +20,7 @@ public class Emprestimo {
         usuario.registrarEmprestimo();
         this.livro = livro;
         this.usuario = usuario;
+        this.dataEmprestimo = dataEmprestimo;
         this.dataPrevistaDevolucao = dataEmprestimo.plusDays(usuario.getPrazoDevolucaoEmDias());
     }
 
@@ -49,6 +51,12 @@ public class Emprestimo {
     }
 
     public void devolver(LocalDate dataDevolucao) {
+        if (devolvido) {
+            throw new IllegalStateException("Emprestimo ja foi devolvido");
+        }
+        if (dataDevolucao.isBefore(dataEmprestimo)) {
+            throw new IllegalArgumentException("Data de devolucao anterior ao emprestimo");
+        }
         devolvido = true;
         livro.devolverExemplar();
         usuario.registrarDevolucao();
