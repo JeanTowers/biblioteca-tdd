@@ -28,4 +28,13 @@ class EmprestimoTest {
         assertEquals(LocalDate.of(2026, 3, 9), doAluno.getDataPrevistaDevolucao());
         assertEquals(LocalDate.of(2026, 3, 16), doProfessor.getDataPrevistaDevolucao());
     }
+
+    @Test
+    @DisplayName("deve reservar exemplar e contar emprestimo do usuario ao emprestar")
+    void deveReservarExemplarEContarEmprestimoQuandoCriado() {
+        new Emprestimo(livro, aluno, DATA_EMPRESTIMO);
+
+        assertEquals(1, livro.getExemplaresDisponiveis());
+        assertEquals(1, aluno.getEmprestimosAtivos());
+    }
 }
