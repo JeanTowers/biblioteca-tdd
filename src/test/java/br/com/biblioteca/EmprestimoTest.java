@@ -167,4 +167,13 @@ class EmprestimoTest {
         assertFalse(emprestimo.isDevolvido());
         assertEquals(1, livro.getExemplaresDisponiveis());
     }
+
+    @Test
+    @DisplayName("nao deve estar atrasado depois de devolvido")
+    void naoDeveEstarAtrasadoQuandoJaDevolvido() {
+        Emprestimo emprestimo = new Emprestimo(livro, aluno, DATA_EMPRESTIMO);
+        emprestimo.devolver(LocalDate.of(2026, 3, 5));
+
+        assertFalse(emprestimo.estaAtrasado(LocalDate.of(2026, 4, 1)));
+    }
 }
