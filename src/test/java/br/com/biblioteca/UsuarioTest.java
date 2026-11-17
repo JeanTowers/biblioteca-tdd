@@ -20,4 +20,11 @@ class UsuarioTest {
         assertEquals(3, aluno.getLimiteEmprestimos());
         assertEquals(5, professor.getLimiteEmprestimos());
     }
+
+    @Test
+    @DisplayName("aluno deve ter prazo de 7 dias e professor de 14 dias (RN04)")
+    void deveTerPrazoDeDevolucaoConformeTipo() {
+        assertEquals(7, aluno.getPrazoDevolucaoEmDias());
+        assertEquals(14, professor.getPrazoDevolucaoEmDias());
+    }
 }
