@@ -18,4 +18,15 @@ public class Emprestimo {
     public LocalDate getDataPrevistaDevolucao() {
         return dataPrevistaDevolucao;
     }
+
+    public boolean estaAtrasado(LocalDate hoje) {
+        return hoje.isAfter(dataPrevistaDevolucao);
+    }
+
+    public int getDiasAtraso(LocalDate data) {
+        if (!estaAtrasado(data)) {
+            return 0;
+        }
+        return (int) java.time.temporal.ChronoUnit.DAYS.between(dataPrevistaDevolucao, data);
+    }
 }
