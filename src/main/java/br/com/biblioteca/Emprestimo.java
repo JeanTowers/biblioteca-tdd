@@ -29,11 +29,11 @@ public class Emprestimo {
     }
 
     public boolean estaAtrasado(LocalDate hoje) {
-        return hoje.isAfter(dataPrevistaDevolucao);
+        return !devolvido && hoje.isAfter(dataPrevistaDevolucao);
     }
 
     public int getDiasAtraso(LocalDate data) {
-        if (!estaAtrasado(data)) {
+        if (!data.isAfter(dataPrevistaDevolucao)) {
             return 0;
         }
         return (int) ChronoUnit.DAYS.between(dataPrevistaDevolucao, data);
