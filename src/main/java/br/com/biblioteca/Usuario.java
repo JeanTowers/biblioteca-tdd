@@ -4,6 +4,7 @@ public class Usuario {
 
     private final TipoUsuario tipo;
     private int emprestimosAtivos;
+    private double multaPendente;
 
     public Usuario(String nome, TipoUsuario tipo) {
         this.tipo = tipo;
@@ -37,5 +38,16 @@ public class Usuario {
 
     public int getEmprestimosAtivos() {
         return emprestimosAtivos;
+    }
+
+    public void adicionarMulta(double valor) {
+        if (valor <= 0) {
+            throw new IllegalArgumentException("Valor da multa deve ser positivo");
+        }
+        multaPendente += valor;
+    }
+
+    public double getMultaPendente() {
+        return multaPendente;
     }
 }
