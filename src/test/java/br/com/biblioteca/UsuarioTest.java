@@ -138,4 +138,14 @@ class UsuarioTest {
         assertThrows(IllegalArgumentException.class, () -> aluno.pagarMulta(10.01));
         assertEquals(10.0, aluno.getMultaPendente(), 0.001);
     }
+
+    @Test
+    @DisplayName("deve quitar multa formada por centavos sem sobrar residuo de arredondamento")
+    void deveQuitarMultaQuandoValoresTiveremCentavos() {
+        aluno.adicionarMulta(0.10);
+        aluno.adicionarMulta(0.20);
+        aluno.pagarMulta(0.30);
+        assertEquals(0.0, aluno.getMultaPendente());
+        assertTrue(aluno.podeEmprestar());
+    }
 }
