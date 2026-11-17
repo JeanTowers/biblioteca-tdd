@@ -86,4 +86,12 @@ class EmprestimoTest {
         Emprestimo emprestimo = new Emprestimo(livro, aluno, DATA_EMPRESTIMO);
         assertEquals(4, emprestimo.getDiasAtraso(LocalDate.of(2026, 3, 13)));
     }
+
+    @Test
+    @DisplayName("deve estender o prazo pelo mesmo numero de dias ao renovar")
+    void deveEstenderPrazoQuandoRenovar() {
+        Emprestimo emprestimo = new Emprestimo(livro, aluno, DATA_EMPRESTIMO);
+        emprestimo.renovar(LocalDate.of(2026, 3, 8));
+        assertEquals(LocalDate.of(2026, 3, 16), emprestimo.getDataPrevistaDevolucao());
+    }
 }
