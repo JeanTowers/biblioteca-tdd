@@ -19,7 +19,7 @@ public class Usuario {
     }
 
     public boolean podeEmprestar() {
-        return emprestimosAtivos < getLimiteEmprestimos();
+        return emprestimosAtivos < getLimiteEmprestimos() && multaPendente == 0;
     }
 
     public void registrarEmprestimo() {
