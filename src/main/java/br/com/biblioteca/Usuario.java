@@ -9,10 +9,10 @@ public class Usuario {
     }
 
     public int getLimiteEmprestimos() {
-        return tipo == TipoUsuario.ALUNO ? 3 : 5;
+        return tipo.getLimiteEmprestimos();
     }
 
     public int getPrazoDevolucaoEmDias() {
-        return tipo == TipoUsuario.ALUNO ? 7 : 14;
+        return tipo.getPrazoDevolucaoEmDias();
     }
 }
