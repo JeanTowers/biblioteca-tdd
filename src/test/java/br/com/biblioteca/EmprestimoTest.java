@@ -146,4 +146,25 @@ class EmprestimoTest {
 
         assertEquals(50.0, aluno.getMultaPendente(), 0.001);
     }
+
+    @Test
+    @DisplayName("deve lancar excecao ao devolver emprestimo ja devolvido")
+    void deveLancarExcecaoQuandoDevolverDuasVezes() {
+        Emprestimo emprestimo = new Emprestimo(livro, aluno, DATA_EMPRESTIMO);
+        emprestimo.devolver(LocalDate.of(2026, 3, 5));
+
+        assertThrows(IllegalStateException.class,
+                () -> emprestimo.devolver(LocalDate.of(2026, 3, 6)));
+    }
+
+    @Test
+    @DisplayName("deve lancar excecao ao devolver com data anterior ao emprestimo")
+    void deveLancarExcecaoQuandoDataDeDevolucaoForAnteriorAoEmprestimo() {
+        Emprestimo emprestimo = new Emprestimo(livro, aluno, DATA_EMPRESTIMO);
+
+        assertThrows(IllegalArgumentException.class,
+                () -> emprestimo.devolver(LocalDate.of(2026, 3, 1)));
+        assertFalse(emprestimo.isDevolvido());
+        assertEquals(1, livro.getExemplaresDisponiveis());
+    }
 }
