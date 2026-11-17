@@ -27,4 +27,37 @@ class UsuarioTest {
         assertEquals(7, aluno.getPrazoDevolucaoEmDias());
         assertEquals(14, professor.getPrazoDevolucaoEmDias());
     }
+
+    @Test
+    @DisplayName("deve poder emprestar quando nao tem emprestimos nem multa")
+    void devePoderEmprestarQuandoNaoTemEmprestimosNemMulta() {
+        assertTrue(aluno.podeEmprestar());
+    }
+
+    @Test
+    @DisplayName("deve contar emprestimo ativo ao registrar emprestimo")
+    void deveContarEmprestimoAtivoQuandoRegistrarEmprestimo() {
+        aluno.registrarEmprestimo();
+        assertEquals(1, aluno.getEmprestimosAtivos());
+    }
+
+    @Test
+    @DisplayName("nao deve poder emprestar quando aluno atingir 3 emprestimos (RN02)")
+    void naoDevePoderEmprestarQuandoAlunoAtingirLimite() {
+        for (int i = 0; i < 3; i++) {
+            aluno.registrarEmprestimo();
+        }
+        assertFalse(aluno.podeEmprestar());
+    }
+
+    @Test
+    @DisplayName("professor deve poder emprestar ate 5 livros (RN02)")
+    void devePermitirCincoEmprestimosQuandoForProfessor() {
+        for (int i = 0; i < 4; i++) {
+            professor.registrarEmprestimo();
+        }
+        assertTrue(professor.podeEmprestar());
+        professor.registrarEmprestimo();
+        assertFalse(professor.podeEmprestar());
+    }
 }
