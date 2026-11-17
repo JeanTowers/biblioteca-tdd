@@ -60,4 +60,14 @@ class UsuarioTest {
         professor.registrarEmprestimo();
         assertFalse(professor.podeEmprestar());
     }
+
+    @Test
+    @DisplayName("deve lancar excecao ao registrar emprestimo acima do limite")
+    void deveLancarExcecaoQuandoRegistrarEmprestimoAcimaDoLimite() {
+        for (int i = 0; i < 3; i++) {
+            aluno.registrarEmprestimo();
+        }
+        assertThrows(UsuarioBloqueadoException.class, () -> aluno.registrarEmprestimo());
+        assertEquals(3, aluno.getEmprestimosAtivos());
+    }
 }
