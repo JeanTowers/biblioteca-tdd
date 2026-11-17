@@ -1,10 +1,12 @@
 package br.com.biblioteca;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Emprestimo {
 
-    private final LocalDate dataPrevistaDevolucao;
+    private final Usuario usuario;
+    private LocalDate dataPrevistaDevolucao;
 
     public Emprestimo(Livro livro, Usuario usuario, LocalDate dataEmprestimo) {
         if (!usuario.podeEmprestar()) {
@@ -12,6 +14,7 @@ public class Emprestimo {
         }
         livro.emprestarExemplar();
         usuario.registrarEmprestimo();
+        this.usuario = usuario;
         this.dataPrevistaDevolucao = dataEmprestimo.plusDays(usuario.getPrazoDevolucaoEmDias());
     }
 
@@ -27,6 +30,10 @@ public class Emprestimo {
         if (!estaAtrasado(data)) {
             return 0;
         }
-        return (int) java.time.temporal.ChronoUnit.DAYS.between(dataPrevistaDevolucao, data);
+        return (int) ChronoUnit.DAYS.between(dataPrevistaDevolucao, data);
+    }
+
+    public void renovar(LocalDate hoje) {
+        dataPrevistaDevolucao = dataPrevistaDevolucao.plusDays(usuario.getPrazoDevolucaoEmDias());
     }
 }
