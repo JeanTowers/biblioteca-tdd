@@ -127,4 +127,23 @@ class EmprestimoTest {
         assertEquals(0, aluno.getEmprestimosAtivos());
         assertEquals(0.0, aluno.getMultaPendente(), 0.001);
     }
+
+    @Test
+    @DisplayName("deve gerar multa no usuario ao devolver com atraso (RN05)")
+    void deveGerarMultaQuandoDevolverComAtraso() {
+        Emprestimo emprestimo = new Emprestimo(livro, aluno, DATA_EMPRESTIMO);
+        emprestimo.devolver(LocalDate.of(2026, 3, 12));
+
+        assertEquals(6.0, aluno.getMultaPendente(), 0.001);
+        assertFalse(aluno.podeEmprestar());
+    }
+
+    @Test
+    @DisplayName("deve limitar a multa ao teto quando atraso for muito longo (RN05)")
+    void deveLimitarMultaQuandoAtrasoForMuitoLongo() {
+        Emprestimo emprestimo = new Emprestimo(livro, aluno, DATA_EMPRESTIMO);
+        emprestimo.devolver(LocalDate.of(2026, 5, 1));
+
+        assertEquals(50.0, aluno.getMultaPendente(), 0.001);
+    }
 }
