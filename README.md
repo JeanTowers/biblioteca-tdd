@@ -31,7 +31,7 @@ Detalhes completos em [`docs/requisitos.md`](docs/requisitos.md).
 ## Integrantes
 
 - Jean Torres
-- _Nome do(a) colega de dupla_
+- Danyllo Mendanha
 
 ## Tecnologias
 
